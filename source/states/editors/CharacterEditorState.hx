@@ -168,8 +168,8 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 
 		var exportBFButton:FlxButton = new FlxButton(10, 340, "Export BF Frames", function() {
 			if (boyfriend != null && boyfriend.animation != null) {
-				for (anim in boyfriend.animation.animations) {
-					boyfriend.playAnim(anim.name, true);
+				for (animName in boyfriend.animation._animations.keys()) {
+					boyfriend.playAnim(animName, true);
 					boyfriend.exportFrames(boyfriend.curCharacter);
 				}
 				FlxG.log.add("Exported ALL animations for: " + boyfriend.curCharacter);
@@ -179,7 +179,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 
 		var exportDadButton:FlxButton = new FlxButton(10, 370, "Export DAD Frames", function() {
 			if (dad != null && dad.animation != null) {
-				for (anim in dad.animation.animations) {
+				for (anim in dad.animation._animations.keys()) {
 					dad.playAnim(anim.name, true);
 					dad.exportFrames(dad.curCharacter);
 				}
@@ -190,7 +190,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 
 		var exportGFButton:FlxButton = new FlxButton(10, 400, "Export GF Frames", function() {
 			if (gf != null && gf.animation != null) {
-				for (anim in gf.animation.animations) {
+				for (anim in gf.animation._animations.keys()) {
 					gf.playAnim(anim.name, true);
 					gf.exportFrames(gf.curCharacter);
 				}
