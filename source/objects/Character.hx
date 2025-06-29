@@ -97,8 +97,8 @@ class Character extends FlxSprite {
 				playAnim("shoot1");
 			case 'pico-blazin', 'darnell-blazin':
 				skipDance = true;
-		}
-	}
+		};
+}
 
 	public function changeCharacter(character:String) {
 		animationsArray = [];
@@ -125,8 +125,8 @@ class Character extends FlxSprite {
 			loadCharacterFile(Json.parse(File.getContent(path)));
 			#else
 			loadCharacterFile(Json.parse(Assets.getText(path)));
-			#end
-		} catch (e:Dynamic) {
+			#end;
+} catch (e:Dynamic) {
 			trace('Error loading character file of "$character": $e');
 		}
 
@@ -160,8 +160,8 @@ class Character extends FlxSprite {
 			} catch (e:haxe.Exception) {
 				FlxG.log.warn('Could not load atlas ${json.image}: $e');
 				trace(e.stack);
-			}
-		}
+			};
+}
 		#end
 
 		imageFile = json.image;
@@ -217,8 +217,8 @@ class Character extends FlxSprite {
 					addOffset(anim.anim, anim.offsets[0], anim.offsets[1]);
 				else
 					addOffset(anim.anim, 0, 0);
-			}
-		}
+			};
+}
 		#if flxanimate
 		if (isAnimateAtlas)
 			copyAtlasValues();
@@ -247,8 +247,8 @@ class Character extends FlxSprite {
 					dance();
 				}
 				heyTimer = 0;
-			}
-		} else if (specialAnim && isAnimationFinished()) {
+			};
+} else if (specialAnim && isAnimationFinished()) {
 			specialAnim = false;
 			dance();
 		} else if (getAnimationName().endsWith('miss') && isAnimationFinished()) {
@@ -358,8 +358,8 @@ class Character extends FlxSprite {
 					playAnim('danceLeft' + idleSuffix);
 			} else if (hasAnimation('idle' + idleSuffix))
 				playAnim('idle' + idleSuffix);
-		}
-	}
+		};
+}
 
 	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void {
 		specialAnim = false;
@@ -385,13 +385,13 @@ class Character extends FlxSprite {
 
 			if (AnimName == 'singUP' || AnimName == 'singDOWN')
 				danced = !danced;
-		}
-	}
+		};
+}
 
 	public function exportFramesTo(folder:String):Void {
 		if (animation == null) {
-			return
-		};
+			return;
+};
 
 		for (animName in animation.getNameList()) {
 			var anim = animation.getByName(animName);
@@ -415,16 +415,16 @@ class Character extends FlxSprite {
 				var paddedIndex = StringTools.lpad(i + "", "0", 4);
 				var path = folder + '/' + animName + paddedIndex + '.png';
 				saveBytes(path, byteArray);
-			}
-		}
+			};
+}
 
 		public static function saveBytes(filePath:String, data:ByteArray):Void {
 			#if sys
 			var file = sys.io.File.write(filePath, true);
 			file.write(data);
 			file.close();
-			#end
-		}
+			#end;
+}
 
 		function loadMappedAnims():Void {
 			try {
@@ -436,8 +436,8 @@ class Character extends FlxSprite {
 
 				TankmenBG.animationNotes = animationNotes;
 				animationNotes.sort(sortAnims);
-			} catch (e:Dynamic) {}
-		}
+			} catch (e:Dynamic) {};
+}
 
 		function sortAnims(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int {
 			return FlxSort.byValues(FlxSort.ASCENDING, Obj1[0], Obj2[0]);
@@ -498,8 +498,8 @@ class Character extends FlxSprite {
 						missingText.x = getMidpoint().x - 150;
 						missingText.y = getMidpoint().y - 10;
 						missingText.draw();
-					}
-				}
+					};
+}
 				return;
 			}
 			super.draw();
@@ -509,8 +509,8 @@ class Character extends FlxSprite {
 				missingText.x = getMidpoint().x - 150;
 				missingText.y = getMidpoint().y - 10;
 				missingText.draw();
-			}
-		}
+			};
+}
 
 		public function copyAtlasValues() {
 			@:privateAccess
@@ -531,12 +531,12 @@ class Character extends FlxSprite {
 				atlas.antialiasing = antialiasing;
 				atlas.colorTransform = colorTransform;
 				atlas.color = color;
-			}
-		}
+			};
+}
 
 		public override function destroy() {
 			atlas = FlxDestroyUtil.destroy(atlas);
 			super.destroy();
 		}
-		#end
-	}
+		#end;
+}
