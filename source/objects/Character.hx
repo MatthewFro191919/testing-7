@@ -426,14 +426,6 @@ class Character extends FlxSprite {
 		#end
 	}
 
-	public static function saveBytes(filePath:String, data:ByteArray):Void {
-		#if sys
-		var file = sys.io.File.write(filePath, true);
-		file.write(data);
-		file.close();
-		#end
-	}
-
 	function loadMappedAnims():Void {
 		try {
 			var songData:SwagSong = Song.getChart('picospeaker', Paths.formatToSongPath(Song.loadedSongName));
