@@ -388,25 +388,26 @@ class Character extends FlxSprite {
 	}
 
 	public function exportFrames(character:String):Void {
-		if (animation == null)
-			return;
+		if (animation == null) return;
 
 		var exportDir = 'exported_frame/' + character + '/frames/';
 		trace('Exporting frames to: ' + exportDir);
 
 		for (animName in animation.getNameList()) {
 			var anim = animation.getByName(animName);
-			if (anim == null)
-				continue;
+			if (anim == null) continue;
 
 			playAnim(animName, true);
 
 			for (i in 0...anim.frames.length) {
 				var frame = frames.frames[anim.frames[i]];
-				if (frame == null)
-					continue;
+				if (frame == null) continue;
 
-				var bitmapData:BitmapData = new BitmapData(Std.int(frame.frame.width), Std.int(frame.frame.height), true, 0x00000000);
+				var bitmapData:BitmapData = new BitmapData(
+					Std.int(frame.frame.width),
+					Std.int(frame.frame.height),
+					true, 0x00000000
+				);
 				bitmapData.draw(graphic, null, null, null, frame.frame, true);
 
 				var byteArray = bitmapData.encode(bitmapData.rect, new PNGEncoderOptions());
@@ -415,6 +416,14 @@ class Character extends FlxSprite {
 				saveBytes(filePath, byteArray);
 			}
 		}
+	}
+
+	public static function saveBytes(filePath:String, data:ByteArray):Void {
+		#if sys
+		var file = sys.io.File.write(filePath, true);
+		file.write(data);
+		file.close();
+		#end
 	}
 
 	public static function saveBytes(filePath:String, data:ByteArray):Void {
