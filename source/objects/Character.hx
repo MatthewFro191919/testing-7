@@ -9,6 +9,7 @@ import openfl.display.PNGEncoderOptions;
 import openfl.utils.ByteArray;
 import openfl.utils.AssetType;
 import openfl.utils.Assets;
+import openfl.geom.Rectangle;
 import haxe.Json;
 import backend.Song;
 import states.stages.objects.TankmenBG;
@@ -79,6 +80,8 @@ class Character extends FlxSprite {
 	public var noAntialiasing:Bool = false;
 	public var originalFlipX:Bool = false;
 	public var editorIsPlayer:Null<Bool> = null;
+
+	var openflRect:Rectangle = new Rectangle(Std.int(frame.frame.x), Std.int(frame.frame.y), Std.int(frame.frame.width), Std.int(frame.frame.height));
 
 	public function new(x:Float, y:Float, ?character:String = 'bf', ?isPlayer:Bool = false) {
 		super(x, y);
@@ -388,26 +391,25 @@ class Character extends FlxSprite {
 	}
 
 	public function exportFrames(character:String):Void {
-		if (animation == null) return;
+		if (animation == null)
+			return;
 
 		var exportDir = 'exported_frame/' + character + '/frames/';
 		trace('Exporting frames to: ' + exportDir);
 
 		for (animName in animation.getNameList()) {
 			var anim = animation.getByName(animName);
-			if (anim == null) continue;
+			if (anim == null)
+				continue;
 
 			playAnim(animName, true);
 
 			for (i in 0...anim.frames.length) {
 				var frame = frames.frames[anim.frames[i]];
-				if (frame == null) continue;
+				if (frame == null)
+					continue;
 
-				var bitmapData:BitmapData = new BitmapData(
-					Std.int(frame.frame.width),
-					Std.int(frame.frame.height),
-					true, 0x00000000
-				);
+				var bitmapData:BitmapData = new BitmapData(Std.int(frame.frame.width), Std.int(frame.frame.height), true, 0x00000000);
 				bitmapData.draw(graphic.bitmap, null, null, null, frame.frame, true);
 
 				var byteArray = bitmapData.encode(bitmapData.rect, new PNGEncoderOptions());
