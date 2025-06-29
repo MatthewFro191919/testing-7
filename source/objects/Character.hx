@@ -408,7 +408,7 @@ class Character extends FlxSprite {
 					Std.int(frame.frame.height),
 					true, 0x00000000
 				);
-				bitmapData.draw(graphic, null, null, null, frame.frame, true);
+				bitmapData.draw(graphic.bitmap, null, null, null, frame.frame, true);
 
 				var byteArray = bitmapData.encode(bitmapData.rect, new PNGEncoderOptions());
 				var paddedIndex = StringTools.lpad(i + "", "0", 4);
