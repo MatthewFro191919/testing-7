@@ -507,22 +507,19 @@ class Character extends FlxSprite {
 
 		var exportDir = 'exported_frame/' + character + '/frames/';
 		trace('Exporting frames to: ' + exportDir);
-		var animList = animation._animations;
 
-		for (anim in animList) {
-			var animName = anim.name;
-			var animFrames = anim.frames;
+		var animName = anim.name;
+		var animFrames = anim.frames;
 
-			for (i in 0...animFrames.length) {
-				var frame = animFrames[i];
-				var bitmapData:BitmapData = new BitmapData(frame.frame.width, frame.frame.height, true, 0x00000000);
-				bitmapData.draw(graphic, null, null, null, frame.frame, true);
+		for (i in 0...animFrames.length) {
+			var frame = animFrames[i];
+			var bitmapData:BitmapData = new BitmapData(frame.frame.width, frame.frame.height, true, 0x00000000);
+			bitmapData.draw(graphic, null, null, null, frame.frame, true);
 
-				var byteArray = bitmapData.encode(bitmapData.rect, new PNGEncoderOptions());
-				var paddedIndex = StringTools.lpad(i + "", "0", 4); // e.g., 0001
-				var filePath = exportDir + animName + paddedIndex + '.png';
-				saveBytes(filePath, byteArray);
-			}
+			var byteArray = bitmapData.encode(bitmapData.rect, new PNGEncoderOptions());
+			var paddedIndex = StringTools.lpad(i + "", "0", 4); // e.g., 0001
+			var filePath = exportDir + animName + paddedIndex + '.png';
+			saveBytes(filePath, byteArray);
 		}
 	}
 
