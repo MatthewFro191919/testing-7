@@ -81,12 +81,6 @@ class Character extends FlxSprite {
 	public var originalFlipX:Bool = false;
 	public var editorIsPlayer:Null<Bool> = null;
 
-	var rectX = Std.int(frame.frame.x);
-	var rectY = Std.int(frame.frame.y);
-        var rectW = Std.int(frame.frame.width);
-        var rectH = Std.int(frame.frame.height);
-        var openflRect = new Rectangle(rectX, rectY, rectW, rectH);
-
 	public function new(x:Float, y:Float, ?character:String = 'bf', ?isPlayer:Bool = false) {
 		super(x, y);
 
