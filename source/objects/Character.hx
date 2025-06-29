@@ -507,7 +507,7 @@ class Character extends FlxSprite {
 
 		var exportDir = 'exported_frame/' + character + '/frames/';
 		trace('Exporting frames to: ' + exportDir);
-		var animList = animation.animations;
+		var animList = animation._animations;
 
 		for (anim in animList) {
 			var animName = anim.name;
