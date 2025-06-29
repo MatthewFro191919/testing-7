@@ -848,6 +848,22 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 			}
 			FlxG.log.add("Auto-exported ALL animations for: " + boyfriend.curCharacter);
 		}
+		
+		if (FlxG.keys.justPressed.SPACE && dad != null && dad.animation != null) {
+			for (anim in dad.animation.getNameList()) {
+				dad.playAnim(anim, true);
+				dad.exportFrames(dad.curCharacter);
+			}
+			FlxG.log.add("Auto-exported ALL animations for: " + dad.curCharacter);
+		}	
+		
+		if (FlxG.keys.justPressed.SPACE && gf != null && gf.animation != null) {
+			for (anim in gf.animation.getNameList()) {
+				gf.playAnim(anim, true);
+				gf.exportFrames(gf.curCharacter);
+			}
+			FlxG.log.add("Auto-exported ALL animations for: " + gf.curCharacter);
+		}
 
 		if (PsychUIInputText.focusOn != null) {
 			ClientPrefs.toggleVolumeKeys(false);
