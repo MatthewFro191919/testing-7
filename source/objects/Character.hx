@@ -387,7 +387,7 @@ class Character extends FlxSprite {
 				danced = !danced;
 		}
 	}
-
+        
         public function exportFramesTo(folder:String):Void {
 	if (animation == null) return;
 
