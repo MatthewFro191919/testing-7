@@ -16,6 +16,8 @@ import states.editors.content.PsychJsonPrinter;
 
 class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler.PsychUIEvent {
 	var character:Character;
+	var dad:Character;
+	var boyfriend:Character;
 	var ghost:FlxSprite;
 	var animateGhost:FlxAnimate;
 	var animateGhostImage:String;
