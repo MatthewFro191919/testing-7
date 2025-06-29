@@ -388,37 +388,34 @@ class Character extends FlxSprite {
 		}
 	}
 
-	public function exportFrames(character:String):Void {
-		if (animation == null) return;
+        public function exportFramesTo(folder:String):Void {
+	if (animation == null) return;
 
-		var exportDir = 'exported_frame/' + character + '/frames/';
-		trace('Exporting frames to: ' + exportDir);
+	for (animName in animation.getNameList()) {
+		var anim = animation.getByName(animName);
+		if (anim == null) continue;
 
-		for (animName in animation.getNameList()) {
-			var anim = animation.getByName(animName);
-			if (anim == null) continue;
+		playAnim(animName, true);
 
-			playAnim(animName, true);
+		for (i in 0...anim.frames.length) {
+			var frameIndex = anim.frames[i];
+			var frame = frames.frames[frameIndex];
+			if (frame == null) continue;
 
-			for (i in 0...anim.frames.length) {
-				var frameIndex = anim.frames[i];
-				var frame = frames.frames[frameIndex];
-				if (frame == null) continue;
+			var rect = new openfl.geom.Rectangle(
+				Std.int(frame.frame.x),
+				Std.int(frame.frame.y),
+				Std.int(frame.frame.width),
+				Std.int(frame.frame.height)
+			);
 
-				var rectX:Int = Std.int(frame.frame.x);
-				var rectY:Int = Std.int(frame.frame.y);
-				var rectW:Int = Std.int(frame.frame.width);
-				var rectH:Int = Std.int(frame.frame.height);
-				var openflRect:Rectangle = new Rectangle(rectX, rectY, rectW, rectH);
+			var bmp = new BitmapData(Std.int(rect.width), Std.int(rect.height), true, 0x00000000);
+			bmp.draw(graphic.bitmap, null, null, null, rect, true);
 
-				var bitmapData:BitmapData = new BitmapData(rectW, rectH, true, 0x00000000);
-				bitmapData.draw(graphic.bitmap, null, null, null, openflRect, true);
-
-				var byteArray = bitmapData.encode(bitmapData.rect, new PNGEncoderOptions());
-				var paddedIndex = StringTools.lpad(i + "", "0", 4);
-				var filePath = exportDir + animName + paddedIndex + '.png';
-				saveBytes(filePath, byteArray);
-			}
+			var byteArray = bmp.encode(bmp.rect, new PNGEncoderOptions());
+			var paddedIndex = StringTools.lpad(i + "", "0", 4);
+			var path = folder + '/' + animName + paddedIndex + '.png';
+			saveBytes(path, byteArray);
 		}
 	}
 
