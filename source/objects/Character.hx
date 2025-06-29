@@ -4,7 +4,11 @@ import backend.animation.PsychAnimationController;
 
 import flixel.util.FlxSort;
 import flixel.util.FlxDestroyUtil;
+import flixel.system.FlxAssets;
 
+import openfl.display.BitmapData;
+import openfl.display.PNGEncoderOptions;
+import openfl.utils.ByteArray;
 import openfl.utils.AssetType;
 import openfl.utils.Assets;
 import haxe.Json;
