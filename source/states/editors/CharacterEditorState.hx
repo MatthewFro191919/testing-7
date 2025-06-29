@@ -1,5 +1,8 @@
 package states.editors;
 
+#if sys
+import sys.FileDialog;
+#end
 import flixel.graphics.FlxGraphic;
 import flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
 import flixel.ui.FlxButton;
@@ -167,37 +170,49 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 		// ... other UI setup ...
 
 		var exportBFButton:FlxButton = new FlxButton(10, 340, "Export BF Frames", function() {
-			if (boyfriend != null && boyfriend.animation != null) {
-				for (animName in boyfriend.animation.getNameList()) {
-					boyfriend.playAnim(animName, true);
-					boyfriend.exportFrames(boyfriend.curCharacter);
-				}
-
-				FlxG.log.add("Exported ALL animations for: " + boyfriend.curCharacter);
-			}
+			#if sys
+			var dialog = new FileDialog();
+			dialog.title = "Select Folder to Export BF Frames";
+			dialog.browseForDirectory();
+			dialog.onSelect = function(path:String) {
+				if (boyfriend != null)
+					boyfriend.exportFramesTo(path);
+			};
+			#else
+			FlxG.log.add("Folder dialog only supported on desktop builds.");
+			#end
 		});
 		add(exportBFButton);
 
 		var exportDadButton:FlxButton = new FlxButton(10, 370, "Export DAD Frames", function() {
-			if (dad != null && dad.animation != null) {
-				for (animName in dad.animation.getNameList()) {
-					dad.playAnim(animName, true);
-					dad.exportFrames(dad.curCharacter);
-				}
-				FlxG.log.add("Exported ALL animations for: " + dad.curCharacter);
-			}
-		});
+			#if sys
+			var dialog = new FileDialog();
+			dialog.title = "Select Folder to Export DAD Frames";
+			dialog.browseForDirectory();
+			dialog.onSelect = function(path:String) {
+				if (dad != null)
+					dad.exportFramesTo(path);
+			};
+			#else
+			FlxG.log.add("Folder dialog only supported on desktop builds.");
+			#end
+		});		
 		add(exportDadButton);
 
 		var exportGFButton:FlxButton = new FlxButton(10, 400, "Export GF Frames", function() {
-			if (gf != null && gf.animation != null) {
-				for (animName in gf.animation.getNameList()) {
-					gf.playAnim(animName, true);
-					gf.exportFrames(gf.curCharacter);
-				}
-				FlxG.log.add("Exported ALL animations for: " + gf.curCharacter);
-			}
-		});
+			#if sys
+			var dialog = new FileDialog();
+			dialog.title = "Select Folder to Export GF Frames";
+			dialog.browseForDirectory();
+			dialog.onSelect = function(path:String) {
+				if (gf != null)
+					gf.exportFramesTo(path);
+			};
+			#else
+			FlxG.log.add("Folder dialog only supported on desktop builds.");
+			#end
+		});		
+		add(exportDadButton);
 		add(exportGFButton);
 	}
 
@@ -848,15 +863,15 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 			}
 			FlxG.log.add("Auto-exported ALL animations for: " + boyfriend.curCharacter);
 		}
-		
+
 		if (FlxG.keys.justPressed.SPACE && dad != null && dad.animation != null) {
 			for (anim in dad.animation.getNameList()) {
 				dad.playAnim(anim, true);
 				dad.exportFrames(dad.curCharacter);
 			}
 			FlxG.log.add("Auto-exported ALL animations for: " + dad.curCharacter);
-		}	
-		
+		}
+
 		if (FlxG.keys.justPressed.SPACE && gf != null && gf.animation != null) {
 			for (anim in gf.animation.getNameList()) {
 				gf.playAnim(anim, true);
