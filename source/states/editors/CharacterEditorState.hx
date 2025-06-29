@@ -2,6 +2,7 @@ package states.editors;
 
 import flixel.graphics.FlxGraphic;
 import flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
+import flixel.ui.FlxButton;
 import flixel.util.FlxDestroyUtil;
 import openfl.net.FileReference;
 import openfl.events.Event;
