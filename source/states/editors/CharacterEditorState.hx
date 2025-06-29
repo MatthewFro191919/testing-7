@@ -168,10 +168,11 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 
 		var exportBFButton:FlxButton = new FlxButton(10, 340, "Export BF Frames", function() {
 			if (boyfriend != null && boyfriend.animation != null) {
-				for (animName in boyfriend.animation._animations.keys()) {
+				for (animName in boyfriend.animation.getNameList()) {
 					boyfriend.playAnim(animName, true);
 					boyfriend.exportFrames(boyfriend.curCharacter);
 				}
+
 				FlxG.log.add("Exported ALL animations for: " + boyfriend.curCharacter);
 			}
 		});
@@ -179,8 +180,8 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 
 		var exportDadButton:FlxButton = new FlxButton(10, 370, "Export DAD Frames", function() {
 			if (dad != null && dad.animation != null) {
-				for (anim in dad.animation._animations.keys()) {
-					dad.playAnim(anim.name, true);
+				for (animName in dad.animation.getNameList()) {
+					dad.playAnim(animName, true);
 					dad.exportFrames(dad.curCharacter);
 				}
 				FlxG.log.add("Exported ALL animations for: " + dad.curCharacter);
@@ -190,8 +191,8 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 
 		var exportGFButton:FlxButton = new FlxButton(10, 400, "Export GF Frames", function() {
 			if (gf != null && gf.animation != null) {
-				for (anim in gf.animation._animations.keys()) {
-					gf.playAnim(anim.name, true);
+				for (animName in gf.animation.getNameList()) {
+					gf.playAnim(animName, true);
 					gf.exportFrames(gf.curCharacter);
 				}
 				FlxG.log.add("Exported ALL animations for: " + gf.curCharacter);
