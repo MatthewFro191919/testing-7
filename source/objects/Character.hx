@@ -395,25 +395,29 @@ class Character extends FlxSprite {
 	}
 
 	public function exportFrames(character:String):Void {
-		if (animation == null)
-			return;
+		if (animation == null) return;
 
 		var exportDir = 'exported_frame/' + character + '/frames/';
 		trace('Exporting frames to: ' + exportDir);
 
 		for (animName in animation.getNameList()) {
 			var anim = animation.getByName(animName);
-			if (anim == null)
-				continue;
+			if (anim == null) continue;
 
 			playAnim(animName, true);
 
 			for (i in 0...anim.frames.length) {
-				var frame = frames.frames[anim.frames[i]];
-				if (frame == null)
-					continue;
+				var frameIndex = anim.frames[i];
+				var frame = frames.frames[frameIndex];
+				if (frame == null) continue;
 
-				var bitmapData:BitmapData = new BitmapData(Std.int(frame.frame.width), Std.int(frame.frame.height), true, 0x00000000);
+				var rectX:Int = Std.int(frame.frame.x);
+				var rectY:Int = Std.int(frame.frame.y);
+				var rectW:Int = Std.int(frame.frame.width);
+				var rectH:Int = Std.int(frame.frame.height);
+				var openflRect:Rectangle = new Rectangle(rectX, rectY, rectW, rectH);
+
+				var bitmapData:BitmapData = new BitmapData(rectW, rectH, true, 0x00000000);
 				bitmapData.draw(graphic.bitmap, null, null, null, openflRect, true);
 
 				var byteArray = bitmapData.encode(bitmapData.rect, new PNGEncoderOptions());
