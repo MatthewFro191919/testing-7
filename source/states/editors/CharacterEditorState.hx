@@ -18,6 +18,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 	var character:Character;
 	var dad:Character;
 	var boyfriend:Character;
+	var gf:Character;
 	var ghost:FlxSprite;
 	var animateGhost:FlxAnimate;
 	var animateGhostImage:String;
