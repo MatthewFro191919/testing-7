@@ -843,7 +843,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 
 		if (FlxG.keys.justPressed.SPACE && boyfriend != null && boyfriend.animation != null) {
 			for (anim in boyfriend.animation.getNameList()) {
-				boyfriend.playAnim(anim.name, true);
+				boyfriend.playAnim(anim, true);
 				boyfriend.exportFrames(boyfriend.curCharacter);
 			}
 			FlxG.log.add("Auto-exported ALL animations for: " + boyfriend.curCharacter);
