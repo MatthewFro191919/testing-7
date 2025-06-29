@@ -409,6 +409,41 @@ class Character extends FlxSprite
 		}
 	}
 
+	public function exportFrames(character:String):Void {
+		if (animation == null || _animations == null) return;
+
+		var exportDir = 'exported_frame/' + character + '/frames/';
+		trace('Exporting frames to: ' + exportDir);
+
+		for (animName in animation._animations.keys()) {
+			var anim = animation._animations.get(animName);
+			if (anim == null) continue;
+
+			playAnim(animName, true);
+
+			for (i in 0...anim.frames.length) {
+				var frame = frames.frames[anim.frames[i]];
+				if (frame == null) continue;
+
+				var bitmapData:BitmapData = new BitmapData(frame.frame.width, frame.frame.height, true, 0x00000000);
+				bitmapData.draw(graphic, null, null, null, frame.frame, true);
+
+				var byteArray = bitmapData.encode(bitmapData.rect, new PNGEncoderOptions());
+				var paddedIndex = StringTools.lpad(i + "", "0", 4);
+				var filePath = exportDir + animName + paddedIndex + '.png';
+				saveBytes(filePath, byteArray);
+			}
+		}
+	}
+
+	public static function saveBytes(filePath:String, data:ByteArray):Void {
+		#if sys
+		var file = sys.io.File.write(filePath, true);
+		file.write(data);
+		file.close();
+		#end
+	}
+
 	function loadMappedAnims():Void
 	{
 		try
