@@ -387,157 +387,156 @@ class Character extends FlxSprite {
 				danced = !danced;
 		}
 	}
-        
-        public function exportFramesTo(folder:String):Void {
-	if (animation == null) return;
 
-	for (animName in animation.getNameList()) {
-		var anim = animation.getByName(animName);
-		if (anim == null) continue;
+	public function exportFramesTo(folder:String):Void {
+		if (animation == null) {
+			return
+		};
 
-		playAnim(animName, true);
+		for (animName in animation.getNameList()) {
+			var anim = animation.getByName(animName);
+			if (anim == null)
+				continue;
 
-		for (i in 0...anim.frames.length) {
-			var frameIndex = anim.frames[i];
-			var frame = frames.frames[frameIndex];
-			if (frame == null) continue;
+			playAnim(animName, true);
 
-			var rect = new openfl.geom.Rectangle(
-				Std.int(frame.frame.x),
-				Std.int(frame.frame.y),
-				Std.int(frame.frame.width),
-				Std.int(frame.frame.height)
-			);
+			for (i in 0...anim.frames.length) {
+				var frameIndex = anim.frames[i];
+				var frame = frames.frames[frameIndex];
+				if (frame == null)
+					continue;
 
-			var bmp = new BitmapData(Std.int(rect.width), Std.int(rect.height), true, 0x00000000);
-			bmp.draw(graphic.bitmap, null, null, null, rect, true);
+				var rect = new openfl.geom.Rectangle(Std.int(frame.frame.x), Std.int(frame.frame.y), Std.int(frame.frame.width), Std.int(frame.frame.height));
 
-			var byteArray = bmp.encode(bmp.rect, new PNGEncoderOptions());
-			var paddedIndex = StringTools.lpad(i + "", "0", 4);
-			var path = folder + '/' + animName + paddedIndex + '.png';
-			saveBytes(path, byteArray);
-		}
-	}
+				var bmp = new BitmapData(Std.int(rect.width), Std.int(rect.height), true, 0x00000000);
+				bmp.draw(graphic.bitmap, null, null, null, rect, true);
 
-	public static function saveBytes(filePath:String, data:ByteArray):Void {
-		#if sys
-		var file = sys.io.File.write(filePath, true);
-		file.write(data);
-		file.close();
-		#end
-	}
-
-	function loadMappedAnims():Void {
-		try {
-			var songData:SwagSong = Song.getChart('picospeaker', Paths.formatToSongPath(Song.loadedSongName));
-			if (songData != null)
-				for (section in songData.notes)
-					for (songNotes in section.sectionNotes)
-						animationNotes.push(songNotes);
-
-			TankmenBG.animationNotes = animationNotes;
-			animationNotes.sort(sortAnims);
-		} catch (e:Dynamic) {}
-	}
-
-	function sortAnims(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int {
-		return FlxSort.byValues(FlxSort.ASCENDING, Obj1[0], Obj2[0]);
-	}
-
-	public var danceEveryNumBeats:Int = 2;
-
-	private var settingCharacterUp:Bool = true;
-
-	public function recalculateDanceIdle() {
-		var lastDanceIdle:Bool = danceIdle;
-		danceIdle = (hasAnimation('danceLeft' + idleSuffix) && hasAnimation('danceRight' + idleSuffix));
-
-		if (settingCharacterUp) {
-			danceEveryNumBeats = (danceIdle ? 1 : 2);
-		} else if (lastDanceIdle != danceIdle) {
-			var calc:Float = danceEveryNumBeats;
-			if (danceIdle)
-				calc /= 2;
-			else
-				calc *= 2;
-
-			danceEveryNumBeats = Math.round(Math.max(calc, 1));
-		}
-		settingCharacterUp = false;
-	}
-
-	public function addOffset(name:String, x:Float = 0, y:Float = 0) {
-		animOffsets[name] = [x, y];
-	}
-
-	public function quickAnimAdd(name:String, anim:String) {
-		animation.addByPrefix(name, anim, 24, false);
-	}
-
-	// Atlas support
-	// special thanks ne_eo for the references, you're the goat!!
-	@:allow(states.editors.CharacterEditorState)
-	public var isAnimateAtlas(default, null):Bool = false;
-	#if flxanimate
-	public var atlas:FlxAnimate;
-
-	public override function draw() {
-		var lastAlpha:Float = alpha;
-		var lastColor:FlxColor = color;
-		if (missingCharacter) {
-			alpha *= 0.6;
-			color = FlxColor.BLACK;
+				var byteArray = bmp.encode(bmp.rect, new PNGEncoderOptions());
+				var paddedIndex = StringTools.lpad(i + "", "0", 4);
+				var path = folder + '/' + animName + paddedIndex + '.png';
+				saveBytes(path, byteArray);
+			}
 		}
 
-		if (isAnimateAtlas) {
-			if (atlas.anim.curInstance != null) {
-				copyAtlasValues();
-				atlas.draw();
+		public static function saveBytes(filePath:String, data:ByteArray):Void {
+			#if sys
+			var file = sys.io.File.write(filePath, true);
+			file.write(data);
+			file.close();
+			#end
+		}
+
+		function loadMappedAnims():Void {
+			try {
+				var songData:SwagSong = Song.getChart('picospeaker', Paths.formatToSongPath(Song.loadedSongName));
+				if (songData != null)
+					for (section in songData.notes)
+						for (songNotes in section.sectionNotes)
+							animationNotes.push(songNotes);
+
+				TankmenBG.animationNotes = animationNotes;
+				animationNotes.sort(sortAnims);
+			} catch (e:Dynamic) {}
+		}
+
+		function sortAnims(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int {
+			return FlxSort.byValues(FlxSort.ASCENDING, Obj1[0], Obj2[0]);
+		}
+
+		public var danceEveryNumBeats:Int = 2;
+
+		private var settingCharacterUp:Bool = true;
+
+		public function recalculateDanceIdle() {
+			var lastDanceIdle:Bool = danceIdle;
+			danceIdle = (hasAnimation('danceLeft' + idleSuffix) && hasAnimation('danceRight' + idleSuffix));
+
+			if (settingCharacterUp) {
+				danceEveryNumBeats = (danceIdle ? 1 : 2);
+			} else if (lastDanceIdle != danceIdle) {
+				var calc:Float = danceEveryNumBeats;
+				if (danceIdle)
+					calc /= 2;
+				else
+					calc *= 2;
+
+				danceEveryNumBeats = Math.round(Math.max(calc, 1));
+			}
+			settingCharacterUp = false;
+		}
+
+		public function addOffset(name:String, x:Float = 0, y:Float = 0) {
+			animOffsets[name] = [x, y];
+		}
+
+		public function quickAnimAdd(name:String, anim:String) {
+			animation.addByPrefix(name, anim, 24, false);
+		}
+
+		// Atlas support
+		// special thanks ne_eo for the references, you're the goat!!
+		@:allow(states.editors.CharacterEditorState)
+		public var isAnimateAtlas(default, null):Bool = false;
+		#if flxanimate
+		public var atlas:FlxAnimate;
+
+		public override function draw() {
+			var lastAlpha:Float = alpha;
+			var lastColor:FlxColor = color;
+			if (missingCharacter) {
+				alpha *= 0.6;
+				color = FlxColor.BLACK;
+			}
+
+			if (isAnimateAtlas) {
+				if (atlas.anim.curInstance != null) {
+					copyAtlasValues();
+					atlas.draw();
+					alpha = lastAlpha;
+					color = lastColor;
+					if (missingCharacter && visible) {
+						missingText.x = getMidpoint().x - 150;
+						missingText.y = getMidpoint().y - 10;
+						missingText.draw();
+					}
+				}
+				return;
+			}
+			super.draw();
+			if (missingCharacter && visible) {
 				alpha = lastAlpha;
 				color = lastColor;
-				if (missingCharacter && visible) {
-					missingText.x = getMidpoint().x - 150;
-					missingText.y = getMidpoint().y - 10;
-					missingText.draw();
-				}
+				missingText.x = getMidpoint().x - 150;
+				missingText.y = getMidpoint().y - 10;
+				missingText.draw();
 			}
-			return;
 		}
-		super.draw();
-		if (missingCharacter && visible) {
-			alpha = lastAlpha;
-			color = lastColor;
-			missingText.x = getMidpoint().x - 150;
-			missingText.y = getMidpoint().y - 10;
-			missingText.draw();
-		}
-	}
 
-	public function copyAtlasValues() {
-		@:privateAccess
-		{
-			atlas.cameras = cameras;
-			atlas.scrollFactor = scrollFactor;
-			atlas.scale = scale;
-			atlas.offset = offset;
-			atlas.origin = origin;
-			atlas.x = x;
-			atlas.y = y;
-			atlas.angle = angle;
-			atlas.alpha = alpha;
-			atlas.visible = visible;
-			atlas.flipX = flipX;
-			atlas.flipY = flipY;
-			atlas.shader = shader;
-			atlas.antialiasing = antialiasing;
-			atlas.colorTransform = colorTransform;
-			atlas.color = color;
+		public function copyAtlasValues() {
+			@:privateAccess
+			{
+				atlas.cameras = cameras;
+				atlas.scrollFactor = scrollFactor;
+				atlas.scale = scale;
+				atlas.offset = offset;
+				atlas.origin = origin;
+				atlas.x = x;
+				atlas.y = y;
+				atlas.angle = angle;
+				atlas.alpha = alpha;
+				atlas.visible = visible;
+				atlas.flipX = flipX;
+				atlas.flipY = flipY;
+				atlas.shader = shader;
+				atlas.antialiasing = antialiasing;
+				atlas.colorTransform = colorTransform;
+				atlas.color = color;
+			}
 		}
-	}
 
-	public override function destroy() {
-		atlas = FlxDestroyUtil.destroy(atlas);
-		super.destroy();
+		public override function destroy() {
+			atlas = FlxDestroyUtil.destroy(atlas);
+			super.destroy();
+		}
+		#end
 	}
-	#end
-}
